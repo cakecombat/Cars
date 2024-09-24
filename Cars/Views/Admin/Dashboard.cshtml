@@ -1,0 +1,71 @@
+﻿@{
+    ViewBag.Title = "Admin Dashboard";
+}
+
+<style>
+    body {
+        background-color: #f8f9fa; /* Light background for contrast */
+    }
+
+    h2 {
+        margin-bottom: 20px;
+        font-weight: bold;
+    }
+
+    .card {
+        margin: 20px 0;
+        border: none; /* Remove default card border */
+        border-radius: 10px; /* Rounded corners */
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+    }
+
+    .card-title {
+        font-size: 1.5rem;
+        margin-bottom: 10px;
+        color: #343a40; /* Darker text for titles */
+    }
+
+    .card-text {
+        font-size: 1rem;
+        color: #6c757d; /* Lighter text for descriptions */
+    }
+
+    .btn {
+        width: 100%; /* Full-width buttons */
+        font-weight: bold;
+        padding: 10px;
+    }
+</style>
+
+<div class="container mt-4">
+    <h2 class="text-center">Admin Dashboard</h2>
+    <div class="row mt-4">
+        <div class="col-md-4">
+            <div class="card text-center">
+                <div class="card-body">
+                    <h5 class="card-title">View Cars</h5>
+                    <p class="card-text">Browse and manage the list of cars available.</p>
+                    <a href="@Url.Action("Cars", "Admin")" class="btn btn-primary">View Cars</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card text-center">
+                <div class="card-body">
+                    <h5 class="card-title">Add Car</h5>
+                    <p class="card-text">Add new cars to the inventory easily.</p>
+                    <a href="@Url.Action("AddCar", "Admin")" class="btn btn-success">Add Car</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card text-center">
+                <div class="card-body">
+                    <h5 class="card-title">View Inquiries</h5>
+                    <p class="card-text">Check and manage customer inquiries.</p>
+                    <a href="@Url.Action("Inquiries", "Admin")" class="btn btn-info">View Inquiries</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

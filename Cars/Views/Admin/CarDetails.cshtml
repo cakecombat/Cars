@@ -1,0 +1,61 @@
+﻿@model Cars.Models.Car
+
+@{
+    ViewBag.Title = "Car Details";
+}
+
+<style>
+    body {
+        background-color: #f8f9fa; /* Light background for contrast */
+    }
+
+    h2 {
+        text-align: center;
+        margin-bottom: 20px;
+        font-weight: bold;
+    }
+
+    .car-details {
+        background-color: #ffffff; /* White background for the card */
+        border-radius: 8px; /* Rounded corners */
+        padding: 20px; /* Padding around the content */
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Soft shadow effect */
+        margin: 0 auto; /* Centering the card */
+        max-width: 500px; /* Max width for card */
+    }
+
+    .car-image {
+        max-width: 100%; /* Responsive image */
+        height: auto; /* Maintain aspect ratio */
+        border-radius: 8px; /* Rounded corners for image */
+    }
+
+    .detail-label {
+        font-weight: bold; /* Bold for labels */
+    }
+</style>
+
+<div class="container mt-4">
+    <h2>Car Details</h2>
+
+    <div class="car-details">
+        <h4 class="detail-label">Make:</h4>
+        <p>@Model.Make</p>
+
+        <h4 class="detail-label">Model:</h4>
+        <p>@Model.Model</p>
+
+        <h4 class="detail-label">Price:</h4>
+        <p>@Model.Price.ToString("C")</p> <!-- Format price as currency -->
+        @if (Model.Picture != null)
+        {
+            var base64String = Convert.ToBase64String(Model.Picture);
+            var imageData = string.Format("data:image/png;base64,{0}", base64String);
+            <img src="@imageData" alt="Car Picture" class="car-image" />
+        }
+        else
+        {
+            <p>No image available.</p>
+        }
+    </div>
+</div>

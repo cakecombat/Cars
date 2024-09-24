@@ -1,0 +1,101 @@
+﻿@model IEnumerable<Cars.Models.Car>
+
+@{
+    ViewBag.Title = "Manage Cars";
+}
+
+<style>
+        body  {
+        background-color: #f8f9fa; /* Light background for contrast */
+
+    }
+
+    h2 {
+        margin-bottom: 20px;
+        font-weight: bold;
+    }
+
+    table {
+        width: 100%;
+        margin-top: 20px;
+        border-collapse: collapse; /* Remove spacing between cells */
+    }
+
+    th, td {
+        padding: 12px;
+        text-align: left;
+        border-bottom: 1px solid #dee2e6; /* Light border for table rows */
+    }
+
+    th {
+        background-color: #343a40; /* Dark background for header */
+        color: white; /* White text for header */
+    }
+
+    tr:hover {
+        background-color: #f1f1f1; /* Highlight row on hover */
+    }
+
+    .btn {
+        padding: 8px 12px;
+        font-weight: bold;
+        border: none; /* Remove border */
+        border-radius: 5px; /* Rounded corners */
+        cursor: pointer;
+        margin-right: 5px; /* Spacing between buttons */
+    }
+
+    .btn-view {
+        background-color: #007bff; /* Bootstrap primary color */
+        color: white;
+    }
+
+    .btn-delete {
+        background-color: #dc3545; /* Bootstrap danger color */
+        color: white;
+    }
+
+    .btn-add {
+        margin-top: 20px; /* Space above add button */
+        padding: 10px 20px;
+        font-weight: bold;
+        background-color: #28a745; /* Bootstrap success color */
+        color: white;
+        border: none;
+        border-radius: 5px;
+        text-decoration: none; /* Remove underline from link */
+    }
+</style>
+
+<div class="container mt-4">
+    <h2 class="text-center">Manage Cars</h2>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Make</th>
+                <th>Model</th>
+                <th>Price</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var car in Model)
+            {
+                <tr>
+                    <td>@car.Make</td>
+                    <td>@car.Model</td>
+                    <td>@car.Price.ToString("C")</td> <!-- Format price as currency -->
+                    <td>
+                        <a asp-action="CarDetails" asp-route-id="@car.Id" class="btn btn-view">View</a>
+                        <form asp-action="DeleteCar" asp-route-id="@car.Id" method="post" style="display:inline;">
+                            <button type="submit" class="btn btn-delete">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <a href="@Url.Action("AddCar", "Admin")" class="btn btn-add">Add New Car</a>
+</div>
