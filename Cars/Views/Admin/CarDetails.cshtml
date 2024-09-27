@@ -25,13 +25,13 @@
     }
 
     .car-image {
-        max-width: 100%; /* Responsive image */
+        max-width: 100%;
         height: auto; /* Maintain aspect ratio */
         border-radius: 8px; /* Rounded corners for image */
     }
 
     .detail-label {
-        font-weight: bold; /* Bold for labels */
+        font-weight: bold; 
     }
 </style>
 
@@ -46,7 +46,7 @@
         <p>@Model.Model</p>
 
         <h4 class="detail-label">Price:</h4>
-        <td>@car.Price.ToString("C", new System.Globalization.CultureInfo("en-NG"))</td>
+        <p>@Model.Price.ToString("C", new System.Globalization.CultureInfo("en-NG"))</p>
         @if (Model.Picture != null)
         {
             var base64String = Convert.ToBase64String(Model.Picture);
