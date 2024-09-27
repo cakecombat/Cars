@@ -52,7 +52,7 @@
                     <tr>
                         <td>@car.Make</td>
                         <td>@car.Model</td>
-                        <td>@car.Price.ToString("C")</td>
+                        <td>@car.Price.ToString("C", new System.Globalization.CultureInfo("en-NG"))</td>
                         <td>
                             <a asp-action="CarDetails" asp-route-id="@car.Id" class="btn btn-info">View Details</a>
                         </td>

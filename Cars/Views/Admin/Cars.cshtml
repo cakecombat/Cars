@@ -5,9 +5,8 @@
 }
 
 <style>
-        body  {
+    body {
         background-color: #f8f9fa; /* Light background for contrast */
-
     }
 
     h2 {
@@ -85,7 +84,7 @@
                 <tr>
                     <td>@car.Make</td>
                     <td>@car.Model</td>
-                    <td>@car.Price.ToString("C")</td> <!-- Format price as currency -->
+                    <td>@car.Price.ToString("C", new System.Globalization.CultureInfo("en-NG"))</td>
                     <td>
                         <a asp-action="CarDetails" asp-route-id="@car.Id" class="btn btn-view">View</a>
                         <form asp-action="DeleteCar" asp-route-id="@car.Id" method="post" style="display:inline;">
