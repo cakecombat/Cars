@@ -1,5 +1,4 @@
 ﻿@model IEnumerable<Cars.Models.Car>
-
 @{
     ViewData["Title"] = "Car Listings";
 }
@@ -62,4 +61,6 @@
             </tbody>
         </table>
     </div>
+
+    @Html.Partial("_ContactUsForm", new Cars.Models.ContactUsApiModel())
 </div>

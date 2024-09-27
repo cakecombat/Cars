@@ -6,16 +6,23 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container
 builder.Services.AddControllersWithViews();
 
-// Register the HttpClient and Services
-builder.Services.AddHttpClient<ICarService, CarService>(client =>
-{
-    client.BaseAddress = new Uri(builder.Configuration["ApiSettings:BaseUrl"]);
-});
+// Get the base URL for HttpClient services from configuration
+string baseUrl = builder.Configuration["ApiSettings:BaseUrl"];
 
-builder.Services.AddHttpClient<IInquiryService, InquiryService>(client =>
+// Create a reusable method to register HttpClient services
+void RegisterHttpClient<TInterface, TImplementation>() where TInterface : class where TImplementation : class, TInterface
 {
-    client.BaseAddress = new Uri(builder.Configuration["ApiSettings:BaseUrl"]);
-});
+    builder.Services.AddHttpClient<TInterface, TImplementation>(client =>
+    {
+        client.BaseAddress = new Uri(baseUrl);
+    });
+}
+
+// Register HttpClient services for Car, Inquiry, ContactUs, and CarRequest services
+RegisterHttpClient<ICarService, CarService>();
+RegisterHttpClient<IInquiryService, InquiryService>();
+RegisterHttpClient<IContactUsService, ContactUsService>();
+RegisterHttpClient<ICarRequestService, CarRequestService>();
 
 // Build the application
 var app = builder.Build();
@@ -31,7 +38,6 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
-
 app.UseAuthorization();
 
 // Default routing for MVC

@@ -1,46 +1,35 @@
 ﻿@model Cars.Models.Car
-
 @{
     ViewData["Title"] = "Car Details";
 }
 
 <style>
-    body {
-        background-color: #f8f9fa; /* Light background for contrast */
+    /* ... (previous styles remain the same) ... */
+    .modal {
+        display: none;
+        position: fixed;
+        z-index: 1;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgba(0,0,0,0.4);
     }
 
-    h1 {
-        text-align: center;
-        margin-bottom: 20px;
-        font-weight: bold;
-    }
-
-    .car-details {
-        background-color: #ffffff; /* White background for the card */
-        border-radius: 8px; /* Rounded corners */
-        padding: 20px; /* Padding around the content */
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Soft shadow effect */
-        margin: 20px auto; /* Centering the card */
-        max-width: 600px; /* Max width for card */
-    }
-
-    .car-image {
-        max-width: 100%; /* Responsive image */
-        height: auto; /* Maintain aspect ratio */
-        border-radius: 8px; /* Rounded corners for image */
-        margin-top: 10px; /* Space above image */
-    }
-
-    .inquiry-button {
-        display: block; /* Block display for spacing */
-        margin: 10px 0; 
-        text-align: center;
+    .modal-content {
+        background-color: #fefefe;
+        margin: 15% auto;
+        padding: 20px;
+        border: 1px solid #888;
+        width: 80%;
+        max-width: 500px;
+        border-radius: 8px;
     }
 </style>
 
 <div class="container mt-4">
     <h1>@ViewData["Title"]</h1>
-
     <div class="car-details">
         <h3>@Model.Make @Model.Model</h3>
         <p class="lead">Price: @Model.Price.ToString("C")</p>
@@ -56,8 +45,67 @@
     <div class="inquiry-button">
         <a asp-action="InquiryForm" asp-route-carId="@Model.Id" class="btn btn-primary">Inquire About This Car</a>
     </div>
-
+    <div class="inquiry-button">
+        <button onclick="openRequestModal()" class="btn btn-success">Request This Car</button>
+    </div>
     <div class="inquiry-button">
         <a asp-action="CarListing" class="btn btn-secondary">Back to Listings</a>
     </div>
 </div>
+
+<div id="requestModal" class="modal">
+    <div class="modal-content">
+        <h2>Request Car</h2>
+        <form id="carRequestForm">
+            <input type="hidden" id="carId" name="carId" value="@Model.Id" />
+            <div class="form-group">
+                <label for="requesterName">Your Name:</label>
+                <input type="text" class="form-control" id="requesterName" name="requesterName" required>
+            </div>
+            <div class="form-group">
+                <label for="requesterEmail">Your Email:</label>
+                <input type="email" class="form-control" id="requesterEmail" name="requesterEmail" required>
+            </div>
+            <button type="submit" class="btn btn-primary mt-3">Submit Request</button>
+            <button type="button" class="btn btn-secondary mt-3" onclick="closeRequestModal()">Cancel</button>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        function openRequestModal() {
+            document.getElementById('requestModal').style.display = 'block';
+        }
+
+        function closeRequestModal() {
+            document.getElementById('requestModal').style.display = 'none';
+        }
+
+        document.getElementById('carRequestForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+            var formData = {
+                carId: document.getElementById('carId').value,
+                requesterName: document.getElementById('requesterName').value,
+                requesterEmail: document.getElementById('requesterEmail').value
+            };
+
+            fetch('/api/Car/car-requests', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(formData)
+            })
+                .then(response => response.json())
+                .then(data => {
+                    alert('Car request submitted successfully!');
+                    closeRequestModal();
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                    alert('An error occurred while submitting the request.');
+                });
+        });
+    </script>
+}

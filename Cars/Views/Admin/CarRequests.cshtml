@@ -1,0 +1,31 @@
+﻿@model List<Cars.Models.CarRequest>
+
+<h2>Car Requests</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Requester Name</th>
+            <th>Requester Email</th>
+            <th>Date Requested</th>
+            <th>Car Make</th>
+            <th>Car Model</th>
+            <th>Price</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var request in Model)
+        {
+            <tr>
+                <td>@request.Id</td>
+                <td>@request.RequesterName</td>
+                <td>@request.RequesterEmail</td>
+                <td>@request.DateRequested.ToString("yyyy-MM-dd HH:mm:ss")</td>
+                <td>@request.Car.Make</td>
+                <td>@request.Car.Model</td>
+                <td>@request.Car.Price</td>
+            </tr>
+        }
+    </tbody>
+</table>

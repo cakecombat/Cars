@@ -7,6 +7,7 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 
+
 namespace Cars.Controllers
 {
     public class AdminController : Controller
@@ -14,12 +15,18 @@ namespace Cars.Controllers
         private readonly ICarService _carService;
         private readonly IInquiryService _inquiryService; // Inject the Inquiry Service
         private readonly string _baseUrl;
+        private readonly IContactUsService _contactUsService;
+        private readonly ICarRequestService _carRequestService;
 
-        public AdminController(ICarService carService, IInquiryService inquiryService, IConfiguration configuration)
+
+        public AdminController(ICarService carService, IInquiryService inquiryService, IConfiguration configuration, IContactUsService contactUsService, ICarRequestService carRequestService)
         {
             _carService = carService;
             _inquiryService = inquiryService; // Initialize Inquiry Service
             _baseUrl = configuration["ApiSettings:BaseUrl"] + "/api/Car";
+            _contactUsService = contactUsService;
+            _carRequestService = carRequestService;
+
         }
 
 
@@ -70,7 +77,7 @@ namespace Cars.Controllers
             var car = await _carService.GetCarById(id);
             if (car == null)
             {
-                return NotFound(); // Return a 404 if the car isn't found
+                return NotFound(); 
             }
             return View(car);
         }
@@ -97,7 +104,7 @@ namespace Cars.Controllers
             return RedirectToAction("Cars");
         }
 
-        // GET: Admin/AddCar
+
         // GET: Admin/AddCar
         public IActionResult AddCar()
         {
@@ -155,13 +162,29 @@ namespace Cars.Controllers
         {
             if (await _inquiryService.UpdateInquiryStatus(id, newStatus))
             {
-                return RedirectToAction("Inquiries"); // Redirect back to inquiries list
+                return RedirectToAction("Inquiries");
             }
             else
             {
                 ModelState.AddModelError("", "Failed to update inquiry status.");
-                return RedirectToAction("Inquiries"); // Handle failure appropriately
+                return RedirectToAction("Inquiries");
             }
         }
+        // GET: Admin/ContactUsMessages
+        public async Task<IActionResult> ContactUsMessages()
+        {
+            var messages = await _contactUsService.GetAllMessages();
+            return View(messages);
+        }
+
+        // GET: Admin/CarRequests
+        public async Task<IActionResult> CarRequests()
+        {
+            var carRequests = await _carRequestService.GetAllCarRequests();
+            return View(carRequests);
+        }
+
+
+
     }
 }

@@ -40,7 +40,7 @@
 <div class="container mt-4">
     <h2 class="text-center">Admin Dashboard</h2>
     <div class="row mt-4">
-        <div class="col-md-4">
+        <div class="col-md-3">
             <div class="card text-center">
                 <div class="card-body">
                     <h5 class="card-title">View Cars</h5>
@@ -49,7 +49,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-3">
             <div class="card text-center">
                 <div class="card-body">
                     <h5 class="card-title">Add Car</h5>
@@ -58,12 +58,30 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-3">
             <div class="card text-center">
                 <div class="card-body">
                     <h5 class="card-title">View Inquiries</h5>
                     <p class="card-text">Check and manage customer inquiries.</p>
                     <a href="@Url.Action("Inquiries", "Admin")" class="btn btn-info">View Inquiries</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-center">
+                <div class="card-body">
+                    <h5 class="card-title">View Contact Us Messages</h5>
+                    <p class="card-text">Manage messages submitted via the Contact Us form.</p>
+                    <a href="@Url.Action("ContactUsMessages", "Admin")" class="btn btn-warning">View Contact Us</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-center">
+                <div class="card-body">
+                    <h5 class="card-title">View Car Requests</h5>
+                    <p class="card-text">Check and manage customer car requests.</p>
+                    <a href="@Url.Action("CarRequests", "Admin")" class="btn btn-dark">View Car Requests</a>
                 </div>
             </div>
         </div>
