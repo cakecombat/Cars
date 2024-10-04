@@ -1,66 +1,128 @@
 ﻿@model IEnumerable<Cars.Models.Car>
 @{
-    ViewData["Title"] = "Car Listings";
+    ViewData["Title"] = "Car&You - Car Listings";
 }
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"]</title>
+    <style>
+        :root {
+            --primary-color: #d9534f;
+            --secondary-color: #f8d7da;
+            --text-color: #333;
+            --background-color: #f8f9fa;
+        }
 
-<style>
-    body {
-        background-color: #f8f9fa; /* Light background for contrast */
-    }
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
 
-    h1 {
-        text-align: center;
-        margin: 20px 0; /* Space around title */
-        font-weight: bold;
-    }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
 
-    .table-container {
-        background-color: #ffffff; /* White background for table */
-        border-radius: 8px; /* Rounded corners */
-        padding: 20px; /* Padding around the table */
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Soft shadow effect */
-        margin: 20px auto; /* Centering the table */
-        max-width: 800px; /* Max width for table */
-    }
+        h1 {
+            text-align: center;
+            color: var(--primary-color);
+            font-size: 2.5em;
+            margin-bottom: 30px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
 
-    .table th {
-        background-color: #007bff; /* Bootstrap primary color */
-        color: white; /* White text on header */
-    }
+        .card-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+        }
 
-    .table tbody tr:hover {
-        background-color: #f1f1f1; /* Highlight row on hover */
-    }
-</style>
+        .car-card {
+            background-color: #fff;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
 
-<div class="container mt-4">
-    <h1>@ViewData["Title"]</h1>
+            .car-card:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+            }
 
-    <div class="table-container">
-        <table class="table table-striped table-bordered">
-            <thead>
-                <tr>
-                    <th>Make</th>
-                    <th>Model</th>
-                    <th>Price</th>
-                    <th>Details</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var car in Model)
-                {
-                    <tr>
-                        <td>@car.Make</td>
-                        <td>@car.Model</td>
-                        <td>@car.Price.ToString("C", new System.Globalization.CultureInfo("en-NG"))</td>
-                        <td>
-                            <a asp-action="CarDetails" asp-route-id="@car.Id" class="btn btn-info">View Details</a>
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
+        .car-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .car-details {
+            padding: 20px;
+        }
+
+        .car-make-model {
+            font-size: 1.4em;
+            font-weight: bold;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+
+        .car-price {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #28a745;
+            margin-bottom: 15px;
+        }
+
+        .view-details-btn {
+            display: inline-block;
+            background-color: var(--primary-color);
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+        }
+
+            .view-details-btn:hover {
+                background-color: #c9302c;
+            }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Car Listings</h1>
+        <div class="card-container">
+            @foreach (var car in Model)
+            {
+                <div class="car-card">
+                    @if (car.Picture != null && car.Picture.Length > 0)
+                    {
+                        var base64Image = Convert.ToBase64String(car.Picture);
+                        <img src="data:image/jpeg;base64,@base64Image" alt="Car Image" class="car-image" />
+                    }
+                    else
+                    {
+                        <img src="/images/default-car.jpg" alt="No Image Available" class="car-image" />
+                    }
+                    <div class="car-details">
+                        <div class="car-make-model">@car.Make @car.Model</div>
+                        <div class="car-price">@car.Price.ToString("C", new System.Globalization.CultureInfo("en-NG"))</div>
+                        <a asp-action="CarDetails" asp-route-id="@car.Id" class="view-details-btn">View Details</a>
+                    </div>
+                </div>
+            }
+        </div>
+
+        @await Html.PartialAsync("_ContactUsForm", new Cars.Models.ContactUsApiModel())
     </div>
-
-    @Html.Partial("_ContactUsForm", new Cars.Models.ContactUsApiModel())
-</div>
+</body>
+</html>

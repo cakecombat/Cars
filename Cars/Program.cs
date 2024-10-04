@@ -45,4 +45,16 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller=User}/{action=CarListing}/{id?}");
 
+// Map Admin to Login action
+app.MapControllerRoute(
+    name: "adminLogin",
+    pattern: "Admin",
+    defaults: new { controller = "Admin", action = "Login" });
+
+// Optional: Map direct access to Login action
+app.MapControllerRoute(
+    name: "adminLoginAction",
+    pattern: "Admin/Login",
+    defaults: new { controller = "Admin", action = "Login" });
+
 app.Run();
